@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <title>வட்டி கணக்கிடு </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f1f1f1;
+    }
+    h2 {
+      text-align: center;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      background: #28a745;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2> வட்டி கணக்கிடு </h2>
+    <label for="principal">முதல்தொகை (₹):</label>
+    <input type="number" id="principal" placeholder="முதல்தொகையை உள்ளிடவும்" style="width: 250px;">
+
+    <label for="rate">வட்டியின் வருட விகிதம் (% ஆண்டிற்கு):</label>
+    <input type="number" id="rate" placeholder="வருட விகிதத்தை உள்ளிடவும்" style="width: 250px;">
+
+    <label for="time"> எத்தனை மாதங்கள்:</label>
+    <input type="number" id="time" placeholder=" எத்தனை மாதங்களை உள்ளிடவும்" style="width: 250px;">
+
+    <label for="type" > வட்டியின் வகை:</label>
+    <select id="type" style="width: 250px;">
+      <option value="simple">எளிய வட்டி</option>
+      <option value="compound"> சேரும் வட்டி</option>
+    </select>
+
+    <button onclick="calculateInterest()"> கணக்கிடு</button>
+
+    <div class="result" id="output"></div>
+  </div>
+<script>
+  function calculateInterest() {
+    const P = parseFloat(document.getElementById("principal").value);
+    const R = parseFloat(document.getElementById("rate").value);
+    const T = parseFloat(document.getElementById("time").value);
+    const type = document.getElementById("type").value;
+
+    let interest = 0;
+    let total = 0;
+
+    if (isNaN(P) || isNaN(R) || isNaN(T) || P <= 0 || R < 0 || T <= 0) {
+      document.getElementById("output").innerHTML =
+        "⛔️ Please enter valid numbers for all fields.";
+      return;
+    }
+
+    if (type === "simple") {
+      interest = (P * R * T) / 100;
+      total = P + interest;
+    } else {
+      total = P * Math.pow((1 + R / 100), T);
+      interest = total - P;
+    }
+
+    document.getElementById("output").innerHTML = 
+      `Interest: ₹${interest.toFixed(2)}<br>Total Amount: ₹${total.toFixed(2)}`;
+  }
+</script>
+</body>
+</html>
+
